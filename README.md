@@ -76,7 +76,7 @@ The pages are plain static HTML in [`docs/`](docs/) (no scripts, no trackers).
 
 **For the bot owner:**
 
-1. Enable GitHub Pages (one-time): repo **Settings → Pages → Build and deployment → Source: GitHub Actions**. The workflow [`.github/workflows/pages.yml`](.github/workflows/pages.yml) then publishes `docs/` on every push that changes it, or run it manually from the **Actions** tab.
+1. Enable GitHub Pages (one-time): repo **Settings → Pages → Build and deployment → Source: Deploy from a branch**, branch `claude/elegant-fermi-av7s49` (or `main` if you merge into it), folder **`/docs`**. GitHub republishes the site on every push.
 2. In the [Developer Portal](https://discord.com/developers/applications) open the app → **General Information** and paste the two URLs above into **Terms of Service URL** and **Privacy Policy URL**.
 3. If you change what the bot stores or processes, update `docs/privacy.html` (and its "Last updated" date) in the same change.
 
