@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Optional
+
 import time
 
 import discord
@@ -65,7 +67,7 @@ class SecurityCog(commands.GroupCog, group_name="security", group_description="C
 
     @app_commands.command(name="modlog", description="Set (or clear, if no channel is given) the channel for security logs")
     @app_commands.describe(channel="Channel to post security alerts in; leave empty to disable logging")
-    async def modlog(self, interaction: discord.Interaction, channel: discord.TextChannel | None = None) -> None:
+    async def modlog(self, interaction: discord.Interaction, channel: Optional[discord.TextChannel] = None) -> None:
         assert interaction.guild is not None
         if channel is not None:
             me = interaction.guild.me

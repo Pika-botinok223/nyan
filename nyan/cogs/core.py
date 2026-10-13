@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Optional
+
 import logging
 
 import discord
@@ -60,7 +62,7 @@ def missing_permissions(perms: discord.Permissions) -> list[str]:
     return [name for name, value in REQUIRED_PERMISSIONS if value and not getattr(perms, name)]
 
 
-def pick_welcome_channel(guild: discord.Guild) -> discord.abc.Messageable | None:
+def pick_welcome_channel(guild: discord.Guild) -> Optional[discord.abc.Messageable]:
     """The system channel if nyan can talk there, else the first text channel where it can."""
     me = guild.me
     candidates = [guild.system_channel, *guild.text_channels]

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 import time
-from typing import Literal
+from typing import Literal, Optional
 
 import discord
 from discord import app_commands
@@ -135,7 +135,7 @@ class AntiRaid(commands.GroupCog, group_name="antiraid", group_description="Join
     @app_commands.command(name="lockdown", description="Manually turn join lockdown on or off")
     @app_commands.describe(state="on or off", minutes="How long to stay locked down (default: the configured duration)")
     async def lockdown_cmd(
-        self, interaction: discord.Interaction, state: Literal["on", "off"], minutes: app_commands.Range[int, 1, 1440] | None = None
+        self, interaction: discord.Interaction, state: Literal["on", "off"], minutes: Optional[app_commands.Range[int, 1, 1440]] = None
     ) -> None:
         guild = interaction.guild
         assert guild is not None
@@ -164,13 +164,13 @@ class AntiRaid(commands.GroupCog, group_name="antiraid", group_description="Join
     async def config(
         self,
         interaction: discord.Interaction,
-        join_threshold: app_commands.Range[int, 2, 100] | None = None,
-        window_seconds: app_commands.Range[int, 2, 300] | None = None,
-        action: Literal["kick", "timeout"] | None = None,
-        timeout_minutes: app_commands.Range[int, 1, 40320] | None = None,
-        lockdown_minutes: app_commands.Range[int, 1, 1440] | None = None,
-        flag_new_accounts: bool | None = None,
-        min_account_age_days: app_commands.Range[int, 1, 365] | None = None,
+        join_threshold: Optional[app_commands.Range[int, 2, 100]] = None,
+        window_seconds: Optional[app_commands.Range[int, 2, 300]] = None,
+        action: Optional[Literal["kick", "timeout"]] = None,
+        timeout_minutes: Optional[app_commands.Range[int, 1, 40320]] = None,
+        lockdown_minutes: Optional[app_commands.Range[int, 1, 1440]] = None,
+        flag_new_accounts: Optional[bool] = None,
+        min_account_age_days: Optional[app_commands.Range[int, 1, 365]] = None,
     ) -> None:
         assert interaction.guild is not None
         changes = {

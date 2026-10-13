@@ -35,10 +35,10 @@ Run `/help` in Discord for the full command list. `/invite`, `/terms` and `/priv
    | Manage Channels | `/honeypot setup` creates the trap channel |
 
    Put nyan's role **above** the roles it should moderate or hand out from the shop, because Discord's role hierarchy always applies. If nyan is added with some of these missing, it posts a notice listing what won't work.
-3. Run it (Python 3.10+):
+3. Run it (Python 3.9 or newer; on macOS use `python3`):
 
    ```bash
-   python -m venv .venv && source .venv/bin/activate
+   python3 -m venv .venv && source .venv/bin/activate
    pip install -r requirements.txt
    cp .env.example .env   # then paste your token into DISCORD_TOKEN
    python -m nyan

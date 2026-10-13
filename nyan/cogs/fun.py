@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Optional
+
 import random
 import re
 
@@ -71,7 +73,7 @@ def parse_dice(expr: str) -> tuple[int, int, int]:
     return count, sides, modifier
 
 
-def roll_dice(count: int, sides: int, modifier: int = 0, rng: random.Random | None = None) -> tuple[list[int], int]:
+def roll_dice(count: int, sides: int, modifier: int = 0, rng: Optional[random.Random] = None) -> tuple[list[int], int]:
     rng = rng or random
     rolls = [rng.randint(1, sides) for _ in range(count)]
     return rolls, sum(rolls) + modifier

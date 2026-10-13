@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 import time
-from typing import Literal
+from typing import Literal, Optional
 
 import discord
 from discord import app_commands
@@ -66,7 +66,7 @@ class Honeypot(commands.GroupCog, group_name="honeypot", group_description="Spam
         else:
             await self._check_spam(message, author, protected)
 
-    async def _trap(self, message: discord.Message, author: discord.Member, protected: str | None) -> None:
+    async def _trap(self, message: discord.Message, author: discord.Member, protected: Optional[str]) -> None:
         guild = message.guild
         assert guild is not None
         settings = await self.store.get(guild.id)
@@ -90,7 +90,7 @@ class Honeypot(commands.GroupCog, group_name="honeypot", group_description="Spam
         )
         await send_modlog(guild, settings.modlog_channel_id, embed)
 
-    async def _check_spam(self, message: discord.Message, author: discord.Member, protected: str | None) -> None:
+    async def _check_spam(self, message: discord.Message, author: discord.Member, protected: Optional[str]) -> None:
         guild = message.guild
         assert guild is not None
         key = message.content or "|".join(f"{a.filename}:{a.size}" for a in message.attachments)
@@ -128,7 +128,7 @@ class Honeypot(commands.GroupCog, group_name="honeypot", group_description="Spam
 
     @app_commands.command(name="setup", description="Create (or designate) the honeypot channel")
     @app_commands.describe(channel="Existing channel to use; leave empty to create a new one")
-    async def setup_cmd(self, interaction: discord.Interaction, channel: discord.TextChannel | None = None) -> None:
+    async def setup_cmd(self, interaction: discord.Interaction, channel: Optional[discord.TextChannel] = None) -> None:
         guild = interaction.guild
         assert guild is not None
         await interaction.response.defer(ephemeral=True)
@@ -181,8 +181,8 @@ class Honeypot(commands.GroupCog, group_name="honeypot", group_description="Spam
     async def config(
         self,
         interaction: discord.Interaction,
-        action: Literal["ban", "softban"] | None = None,
-        purge_hours: app_commands.Range[int, 0, 168] | None = None,
+        action: Optional[Literal["ban", "softban"]] = None,
+        purge_hours: Optional[app_commands.Range[int, 0, 168]] = None,
     ) -> None:
         assert interaction.guild is not None
         changes: dict[str, object] = {}
@@ -206,9 +206,9 @@ class Honeypot(commands.GroupCog, group_name="honeypot", group_description="Spam
     async def spam_config(
         self,
         interaction: discord.Interaction,
-        channels: app_commands.Range[int, 2, 10] | None = None,
-        window_seconds: app_commands.Range[int, 5, 300] | None = None,
-        timeout_minutes: app_commands.Range[int, 1, 40320] | None = None,
+        channels: Optional[app_commands.Range[int, 2, 10]] = None,
+        window_seconds: Optional[app_commands.Range[int, 5, 300]] = None,
+        timeout_minutes: Optional[app_commands.Range[int, 1, 40320]] = None,
     ) -> None:
         assert interaction.guild is not None
         changes = {

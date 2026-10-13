@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 import random
-from typing import Literal
+from typing import Literal, Optional
 
 import discord
 from discord import app_commands
@@ -26,7 +26,7 @@ Amount = app_commands.Range[int, 1, MAX_AMOUNT]
 ADMIN = app_commands.checks.has_permissions(manage_guild=True)
 
 
-def embed(title: str, description: str | None = None) -> discord.Embed:
+def embed(title: str, description: Optional[str] = None) -> discord.Embed:
     return discord.Embed(title=title, description=description, color=PINK)
 
 
@@ -79,7 +79,7 @@ class Economy(commands.Cog):
 
     @app_commands.command(name="balance", description="Check your (or someone else's) balance")
     @app_commands.guild_only()
-    async def balance(self, interaction: discord.Interaction, user: discord.Member | None = None) -> None:
+    async def balance(self, interaction: discord.Interaction, user: Optional[discord.Member] = None) -> None:
         target = user or interaction.user
         cfg = await self._cfg(interaction)
         bal = await self.repo.balance(interaction.guild_id, target.id)  # type: ignore[arg-type]
@@ -173,8 +173,8 @@ class Economy(commands.Cog):
     async def config(
         self,
         interaction: discord.Interaction,
-        name: app_commands.Range[str, 1, 32] | None = None,
-        emoji: app_commands.Range[str, 1, 64] | None = None,
+        name: Optional[app_commands.Range[str, 1, 32]] = None,
+        emoji: Optional[app_commands.Range[str, 1, 64]] = None,
     ) -> None:
         assert interaction.guild_id is not None
         cfg = await self.repo.set_config(interaction.guild_id, name, emoji)
@@ -214,7 +214,7 @@ class Economy(commands.Cog):
         interaction: discord.Interaction,
         name: app_commands.Range[str, 1, 50],
         price: Amount,
-        role: discord.Role | None = None,
+        role: Optional[discord.Role] = None,
     ) -> None:
         guild, member = interaction.guild, interaction.user
         assert guild is not None and interaction.guild_id is not None
@@ -289,7 +289,7 @@ class Economy(commands.Cog):
 
     @app_commands.command(name="inventory", description="See what you (or someone else) own")
     @app_commands.guild_only()
-    async def inventory(self, interaction: discord.Interaction, user: discord.Member | None = None) -> None:
+    async def inventory(self, interaction: discord.Interaction, user: Optional[discord.Member] = None) -> None:
         target = user or interaction.user
         rows = await self.repo.inventory(interaction.guild_id, target.id)  # type: ignore[arg-type]
         body = "\n".join(f"{qty}× **{name}**" for name, qty in rows) or "Nothing yet. Check out `/shop list`!"
