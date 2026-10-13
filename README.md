@@ -33,6 +33,18 @@ Run `/help` in Discord for the full command list.
 
    Set `DEV_GUILD_ID` in `.env` to have slash commands show up instantly in one test server. Global sync can take up to an hour.
 
+## First steps in your server
+
+Run these as someone with **Manage Server**:
+
+1. `/security modlog #mod-log` so nyan has somewhere to report what it did.
+2. `/honeypot setup` creates `#do-not-post-here`. Humans read the warning and stay out. Spambots post there and get banned, and their last 24h of messages are purged.
+3. `/security status` shows what is on. Use `/security toggle` to enable or disable a module.
+4. Tune the protection if needed: `/antiraid config` (default is 8 joins in 10s → 10 min lockdown, new joiners kicked) and `/antiscam block|allow <domain>`.
+5. Optional: `/economy config` to rename the currency, and `/shop add` to sell roles.
+
+Owners, admins and anyone with Manage Messages are never punished by the automod. Lockdown state is kept in memory, so a restart ends an active lockdown.
+
 ## Development
 
 ```bash
