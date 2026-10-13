@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nyan - Privacy Policy</title>
+<meta name="description" content="Privacy Policy for the nyan Discord bot: exactly what data is stored and what is only processed in memory.">
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">nyan &#128062;</a>
+    <nav class="site" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html" aria-current="page">Privacy</a>
+    </nav>
+  </div>
+</header>
+<main>
+<div class="wrap">
+<div class="card">
+<h1>Privacy Policy</h1>
+<p class="meta">Last updated: October 13, 2026</p>
+<p>This policy explains what the Discord bot <strong>nyan</strong>, run by the nyan developer (GitHub: <a href="https://github.com/pika-botinok223">pika-botinok223</a>), stores and processes. The bot&rsquo;s source code is public at <a href="https://github.com/pika-botinok223/nyan">github.com/pika-botinok223/nyan</a>, so you can check everything below.</p>
+
+<div class="note"><strong>Short version:</strong> nyan stores server settings and economy data (IDs, balances, timestamps, shop items). It reads messages only to check them for scams and spam, and does <strong>not</strong> save message content in its database. We do not sell or share your data.</div>
+
+<h2>1. What nyan stores</h2>
+<p>nyan keeps a SQLite database file on the machine where the bot runs. It contains only the following, grouped by table. Each row is tied to a Discord server ID (a &ldquo;guild ID&rdquo;).</p>
+<div class="table-scroll">
+<table>
+  <thead><tr><th>Table</th><th>What it holds</th></tr></thead>
+  <tbody>
+    <tr><td><code>sec_settings</code></td><td>Server ID; the mod-log channel ID and honeypot channel ID; on/off switches for anti-raid, anti-scam, honeypot and spam detection; thresholds, time windows, punishment types and durations (for example 8 joins in 10 seconds, kick or timeout, timeout minutes, lockdown minutes, minimum account age in days).</td></tr>
+    <tr><td><code>sec_domains</code></td><td>Server ID and the domain names that server&rsquo;s admins added to the scam block list or allow list.</td></tr>
+    <tr><td><code>eco_config</code></td><td>Server ID, the custom currency name and currency emoji.</td></tr>
+    <tr><td><code>eco_users</code></td><td>Server ID and user ID; that user&rsquo;s balance in that server; the time of their last <code>/daily</code> claim and their daily streak; the time of their last <code>/work</code>.</td></tr>
+    <tr><td><code>eco_shop</code></td><td>Server ID and the shop items admins created: item name, price, and the ID of the role it grants (if any).</td></tr>
+    <tr><td><code>eco_inventory</code></td><td>Server ID, user ID, the names of shop items that user owns and how many.</td></tr>
+  </tbody>
+</table>
+</div>
+<p>nyan does <strong>not</strong> store usernames, nicknames, avatars, email addresses, IP addresses, message content, attachments, or voice data in its database. The user IDs above are Discord&rsquo;s numeric IDs, and only users who use the economy commands (for example <code>/daily</code>, <code>/work</code>, <code>/pay</code>, gambling, shop) get a row. Receiving or sending coins can also create a row for the other member.</p>
+
+<h2>2. What nyan processes but does not store</h2>
+<p>To protect servers, nyan needs Discord&rsquo;s <em>Message Content</em> and <em>Server Members</em> intents. This means it receives messages and member joins in servers where it is added. It uses them like this:</p>
+<ul>
+  <li><strong>Message content is scanned in memory</strong> (including edited messages) to find phishing links, lookalike domains, fake giveaways and masked links. Nothing is written to the database; the text is discarded once the check is done.</li>
+  <li><strong>Recent messages for duplicate-spam detection</strong> are held in memory only: for each recent poster nyan keeps a short window (by default 30 seconds, at most 20 messages per user) of the lower-cased text plus the channel ID and message ID, and drops it after a few minutes of inactivity. This is lost when the bot restarts.</li>
+  <li><strong>Join timestamps</strong> (member ID and time of joining, a bounded number per server) are held in memory only to detect join floods. Whether a server is in lockdown is also kept in memory only.</li>
+  <li><strong>Account creation date</strong> of a joining member is read, if the server enabled new-account flagging, to compare against the configured minimum age. It is not saved.</li>
+  <li><strong>Messages from bots</strong> and from members the bot never punishes (owners, administrators, moderators) are not acted on.</li>
+</ul>
+
+<h2>3. Moderation logs live in Discord</h2>
+<p>When nyan acts (deletes a scam message, times out, kicks or bans someone, starts a lockdown, flags a new account), it can post a report to the <strong>mod-log channel the server chose</strong> with <code>/security modlog</code>. That report may include the member&rsquo;s mention and user ID, the channel, the reason, the action taken, and an <strong>excerpt of the offending message</strong> (up to 500 characters, with links defanged so they can&rsquo;t be clicked). Moderation actions also appear in the server&rsquo;s Discord audit log with a reason.</p>
+<p>These logs are stored by Discord, inside that server, and are controlled by the server&rsquo;s staff (who can delete them or change channel permissions). nyan does not keep its own copy.</p>
+
+<h2>4. Operational logs</h2>
+<p>The bot writes ordinary technical logs on the machine it runs on (for example errors, startup messages, and short lines such as &ldquo;raid action on user ID X in server ID Y&rdquo;). These may contain server and user IDs but not message content. They are used only to run and debug the bot.</p>
+
+<h2>5. How the data is used</h2>
+<p>Only to provide nyan&rsquo;s features: moderation and protection, the economy and shop, and the commands you ask it to run. We do not use it for advertising, profiling or analytics, and nyan has no trackers.</p>
+
+<h2>6. Sharing</h2>
+<p>We do <strong>not</strong> sell, rent or share your data. The only third party involved is <strong>Discord</strong> itself, which delivers messages and events to the bot and receives the bot&rsquo;s actions and replies; Discord&rsquo;s own <a href="https://discord.com/privacy">Privacy Policy</a> applies to that. This website is static, uses no scripts or cookies and has no analytics. It is hosted on GitHub Pages, which may keep its own server logs.</p>
+
+<h2>7. Retention and deletion</h2>
+<p>Stored data is kept until it is deleted. Removing nyan from a server stops all processing for that server, but its stored settings and economy rows are not automatically erased, so they are still there if you re-add the bot. Admins can remove some data themselves (for example shop items with <code>/shop remove</code>, and domain entries with <code>/antiscam remove</code>).</p>
+<p><strong>To request deletion</strong> of a server&rsquo;s data, or of your own user data, open an issue at <a href="https://github.com/pika-botinok223/nyan/issues">github.com/pika-botinok223/nyan/issues</a> stating the server ID (and/or your user ID). Issues are public, so don&rsquo;t include anything else private. We may ask you to show that you have the authority to ask (for example, being an admin of that server). We will delete the matching rows from the database. In-memory data disappears on its own when the bot restarts. Messages in a server&rsquo;s mod-log channel are in Discord and have to be deleted by that server&rsquo;s staff.</p>
+
+<h2>8. Security</h2>
+<p>We limit access to the database file and the bot token and try to follow reasonable practice, but no system is perfectly secure and we cannot guarantee absolute security.</p>
+
+<h2>9. Children</h2>
+<p>nyan is not meant for children under the minimum age Discord requires in your country (13 in most places). Using Discord, and therefore nyan, is only allowed at or above that age. We do not knowingly collect data from anyone below it; if you think we have, ask for deletion as described above.</p>
+
+<h2>10. Changes to this policy</h2>
+<p>We may update this policy when the bot changes. The &ldquo;Last updated&rdquo; date at the top shows the latest version, and the full history is in the public GitHub repository. If you keep using nyan after a change, you accept the updated policy.</p>
+
+<h2>11. Contact</h2>
+<p>Questions or requests: <a href="https://github.com/pika-botinok223/nyan/issues">open an issue on GitHub</a>. See also the <a href="terms.html">Terms of Service</a>.</p>
+</div>
+</div>
+</main>
+<footer class="site">
+  <div class="wrap">
+    <a href="terms.html">Terms of Service</a> &middot; <a href="privacy.html">Privacy Policy</a> &middot;
+    <a href="https://github.com/pika-botinok223/nyan">GitHub</a>
+    <p>nyan is made by the nyan developer. Not affiliated with or endorsed by Discord Inc.</p>
+  </div>
+</footer>
+</body>
+</html>

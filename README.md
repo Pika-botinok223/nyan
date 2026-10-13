@@ -8,7 +8,7 @@ A cat-themed Discord bot with server protection and fun toys.
 - **Economy**: per-server currency, `/daily`, `/work`, `/pay`, gambling, leaderboard, and a role shop
 - **Toys**: `/8ball`, `/roll`, `/choose`, `/cat`, `/rps`, `/hug`, `/pat`, …
 
-Run `/help` in Discord for the full command list.
+Run `/help` in Discord for the full command list. `/invite`, `/terms` and `/privacy` give you the invite link and the legal pages.
 
 ## Setup
 
@@ -21,7 +21,20 @@ Run `/help` in Discord for the full command list.
    https://discord.com/oauth2/authorize?client_id=1559417160596725830&scope=bot+applications.commands&permissions=1099780156438
    ```
 
-   That link asks for: Manage Roles, Manage Channels, Kick Members, Ban Members, Moderate Members (timeout), View Channels, Send Messages, Manage Messages, Embed Links, Read Message History. Put nyan's role **above** the roles it should moderate or hand out from the shop.
+   That link (scopes `bot applications.commands`) asks only for the permissions nyan actually uses. `/invite` in Discord prints the same link.
+
+   | Permission | Used for |
+   | --- | --- |
+   | View Channels, Read Message History | seeing the messages it protects |
+   | Send Messages, Embed Links | replies and mod-log reports |
+   | Manage Messages | deleting scam, spam and honeypot messages |
+   | Kick Members | anti-raid lockdown kicks |
+   | Ban Members | honeypot bans / softbans |
+   | Moderate Members | timeouts (anti-scam, spam, anti-raid) |
+   | Manage Roles | shop role rewards |
+   | Manage Channels | `/honeypot setup` creates the trap channel |
+
+   Put nyan's role **above** the roles it should moderate or hand out from the shop, because Discord's role hierarchy always applies. If nyan is added with some of these missing, it posts a notice listing what won't work.
 3. Run it (Python 3.10+):
 
    ```bash
@@ -44,6 +57,19 @@ Run these as someone with **Manage Server**:
 5. Optional: `/economy config` to rename the currency, and `/shop add` to sell roles.
 
 Owners, admins and anyone with Manage Messages are never punished by the automod. Lockdown state is kept in memory, so a restart ends an active lockdown.
+
+## Legal
+
+- [Terms of Service](https://pika-botinok223.github.io/nyan/terms.html)
+- [Privacy Policy](https://pika-botinok223.github.io/nyan/privacy.html)
+
+The pages are plain static HTML in [`docs/`](docs/) (no scripts, no trackers).
+
+**For the bot owner:**
+
+1. Enable GitHub Pages: repo **Settings → Pages → Build and deployment → Deploy from a branch → `main` / `docs` folder**.
+2. In the [Developer Portal](https://discord.com/developers/applications) open the app → **General Information** and paste the two URLs above into **Terms of Service URL** and **Privacy Policy URL**.
+3. If you change what the bot stores or processes, update `docs/privacy.html` (and its "Last updated" date) in the same change.
 
 ## Development
 
