@@ -46,6 +46,15 @@ Run `/help` in Discord for the full command list. `/invite`, `/terms` and `/priv
 
    Set `DEV_GUILD_ID` in `.env` to have slash commands show up instantly in one test server. Global sync can take up to an hour.
 
+### Easiest on macOS: double-click `start.command`
+
+Instead of typing the commands above, double-click `start.command` in Finder (it needs Python 3.9+, see [python.org](https://www.python.org/downloads/)).
+
+- **First run:** it creates the `.venv`, installs the requirements, and opens `.env` in TextEdit. Paste your bot token after `DISCORD_TOKEN=`, save, and double-click `start.command` again.
+- **Later runs:** it just starts the bot (requirements are reinstalled only if `requirements.txt` changed). Press Ctrl+C or close the window to stop it.
+- **"can't be opened because it is from an unidentified developer":** right-click `start.command` → **Open** → **Open** (only needed once). Or, in Terminal from the nyan folder: `xattr -d com.apple.quarantine start.command`.
+- **"permission denied":** in Terminal from the nyan folder, run `chmod +x start.command`.
+
 ## First steps in your server
 
 Run these as someone with **Manage Server**:
